@@ -10,6 +10,10 @@ public class YouAreEll {
         this.tt = t;
     }
 
+    public YouAreEll(MessageController messageController, IdController idController) {
+        this.tt = new TransactionController(messageController,idController);
+    }
+
     public static void main(String[] args) {
         // hmm: is this Dependency Injection?
         YouAreEll urlhandler = new YouAreEll(
@@ -26,6 +30,10 @@ public class YouAreEll {
 
     public String get_messages() {
         return MakeURLCall("/messages", "GET", "");
+    }
+
+    private String MakeURLCall(String s, String get, String s1) {
+        return "";
     }
 
 
