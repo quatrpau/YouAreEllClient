@@ -20,7 +20,18 @@ public class TransactionController {
         return ("Id registered.");
     }
 
-    public String makecall(String s, String get, String s1) {
-        if(s.equals("/ids"));
+    public String makecall(String s, String cmd, String s1) {
+        if(s.equals("/ids")){
+            if(cmd.equals("GET")){
+                return idCtrl.getIds().toString();
+            }
+            return "";
+        }
+        else{
+            if(cmd.equals("GET")){
+                return msgCtrl.getMessages().toString();
+            }
+            return "";
+        }
     }
 }

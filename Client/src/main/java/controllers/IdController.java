@@ -11,12 +11,18 @@ public class IdController {
     Id myId;
 
     public ArrayList<Id> getIds() {
-        return new ArrayList<Id>(allIds.values());
+
     }
 
     public Id postId(Id id) {
         // create json from id
+
+        //JsonString jstr = return IdPost(id);
+
         // call server, get json result Or error
+
+
+
         // result json to Id obj
 
         return null;

@@ -12,7 +12,7 @@ public class MessageController {
     // why a HashSet??
 
     public ArrayList<Message> getMessages() {
-        return null;
+        return new ArrayList<Message>(messagesSeen);
     }
     public ArrayList<Message> getMessagesForId(Id Id) {
         return null;

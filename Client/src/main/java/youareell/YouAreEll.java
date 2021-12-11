@@ -2,6 +2,13 @@ package youareell;
 
 import controllers.*;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+//this is the command processor and this is where you create the url stuff
 public class YouAreEll {
 
     TransactionController tt;
@@ -32,7 +39,31 @@ public class YouAreEll {
         return MakeURLCall("/messages", "GET", "");
     }
 
-    private String MakeURLCall(String s, String get, String s1) {
+    private String MakeURLCall(String bisection, String cmd, String opts) {
+        /**
+        try{
+            HttpURLConnection conn = (HttpURLConnection) (new URL("http","zipcode.rocks",8085,bisection).openConnection());
+            if(bisection.equals("/messages")){
+                //return "";
+            }
+            else if(bisection.equals("/ids")){
+                //return "";
+            }
+            else {
+                return "";
+            }
+            conn.setRequestMethod(cmd);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+
+            }
+
+        }
+        catch(MalformedURLException murle){
+            murle.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+         */
         return "";
     }
 
