@@ -21,6 +21,6 @@ public class TransactionController {
     }
 
     public String makecall(String s, String get, String s1) {
-        return "";
+        if(s.equals("/ids"));
     }
 }

@@ -14,9 +14,9 @@ public class Id {
         return uid;
     }
 
-//    public void setUid(String uid) {
-//        this.uid = uid;
-//    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;
