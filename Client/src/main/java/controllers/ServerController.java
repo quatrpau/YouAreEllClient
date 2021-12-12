@@ -3,18 +3,17 @@ package controllers;
 import jdk.nashorn.internal.parser.JSONParser;
 import models.Id;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonReader;
-import javax.json.JsonString;
+import javax.json.*;
+import javax.json.stream.JsonGenerator;
 
 public class ServerController() {
     private final String rootURL = "http://zipcode.rocks:8085";
@@ -53,7 +52,7 @@ public class ServerController() {
                         .collect(Collectors.joining("\n"));
 
                 */
-                return Json.createReader(url.openStream()).readObject().getJsonString(null);
+                return Json.createReader(conn.getInputStream()).readObject().getJsonString(null);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,15 +60,43 @@ public class ServerController() {
         return null;
     }
     public JsonString idPost(Id id) {
-        // url -> /ids/
-        // create json from Id
-        // request
-        // reply
-        // return json
-        return
+        try{
+            // url -> /ids/
+            URL url = getConnected();
+            if(url== null){
+                throw new NullPointerException("URL is null");
+            }
+            // create json from Id
+            JsonObject newbie = Json.createObjectBuilder()
+                    .add("userid", "-")
+                    .add("name", id.getName())
+                    .add("github", id.getGithub())
+                    .build();
+            // request
+            HttpURLConnection conn =(HttpURLConnection) (url.openConnection());
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type","application/json; utf-8");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+            OutputStream os = conn.getOutputStream();
+            JsonWriter jw = Json.createWriter(os);
+            jw.write(newbie);
+            jw.close();
+            os.close();
+            int respo;
+            if((respo = conn.getResponseCode() )!= 200){
+                throw new RuntimeException("HTTP Response Code: " + respo);
+            }
+            // reply
+            return Json.createReader(conn.getInputStream()).readObject().getJsonString(null);
+            // return json
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     public JsonString idPut(Id id) {
-        // url -> /ids/
+        return null;
     }
     private URL getConnected(){
         try{
