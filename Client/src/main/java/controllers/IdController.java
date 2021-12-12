@@ -11,12 +11,14 @@ import models.Id;
 import javax.json.*;
 
 public class IdController {
+    //name, github id
     private HashMap<String, Id> allIds;
 
     Id myId;
 
     public ArrayList<Id> getIds() {
         //if not in allIds;
+        allIds.clear();
         JsonArray jarray = ServerController.shared().idGet();
         List<JsonObject> jlist= jarray.getValuesAs(JsonObject.class);
         //make jarray into arraylist
@@ -33,6 +35,7 @@ public class IdController {
             );
             temper.setUid(job.getString("userid"));
             trove.add(temper);
+            allIds.put(temper.getName(),temper);
             i++;
         }
         return trove;

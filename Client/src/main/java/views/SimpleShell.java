@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,16 @@ public class SimpleShell {
 
     public static void prettyPrint(String output) {
         // yep, make an effort to format things nicely, eh?
-        System.out.println(output);
+        if(output.contains("[") && output.contains("]")){
+            String[] outputStock = output.split(" , ");
+            System.out.println("Name; Github");
+            for(String line: outputStock){
+                System.out.println(line);
+            }
+        }
+        else{
+            System.out.println(output);
+        }
     }
     public static void main(String[] args) throws java.io.IOException {
 
