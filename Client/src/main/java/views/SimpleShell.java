@@ -54,9 +54,9 @@ public class SimpleShell {
                 list.add(commands[i]);
 
             }
-            System.out.print(list); //***check to see if list was added correctly***
+            //System.out.print(list); //***check to see if list was added correctly***
             history.addAll(list);
-            try {
+            //try {
                 //display history of shell with index
                 if (list.get(list.size() - 1).equals("history")) {
                     for (String s : history)
@@ -68,9 +68,17 @@ public class SimpleShell {
 
                 // ids
                 if (list.contains("ids")) {
-                    String results = webber.get_ids();
-                    SimpleShell.prettyPrint(results);
-                    continue;
+                    if(list.size() != 1){
+
+                        //check to see if name is in the server already
+                        String results = webber.post_id(list.get(1),list.get(2));
+
+                    }
+                    else{
+                        String results = webber.get_ids();
+                        SimpleShell.prettyPrint(results);
+                        continue;
+                    }
                 }
 
                 // messages
@@ -95,27 +103,28 @@ public class SimpleShell {
                 }
 
                 //wait, wait, what curiousness is this?
-                Process process = pb.start();
+                //Process process = pb.start();
 
                 //obtain the input stream
-                InputStream is = process.getInputStream();
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
+                //InputStream is = process.getInputStream();
+                //InputStreamReader isr = new InputStreamReader(is);
+                //BufferedReader br = new BufferedReader(isr);
 
                 //read output of the process
-                String line;
-                while ((line = br.readLine()) != null) {
-                System.out.println(line);
-                br.close();
-                }
+                //String line;
+                //while ((line = br.readLine()) != null) {
+                //    System.out.println(line);
+                //    br.close();
+                //}
 
 
-            }
+            //}
 
             //catch ioexception, output appropriate message, resume waiting for input
-            catch (IOException e) {
-                System.out.println("Input Error, Please try again!");
-            }
+            //catch (IOException e) {
+            //    System.out.println("Input Error, Please try again!");
+            //    e.printStackTrace();
+            //}
             // So what, do you suppose, is the meaning of this comment?
             /** The steps are:
               * 1. parse the input to obtain the command and any parameters

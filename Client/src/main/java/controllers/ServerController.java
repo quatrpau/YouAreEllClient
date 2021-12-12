@@ -1,8 +1,6 @@
 package controllers;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import models.Id;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
 
-public class ServerController() {
+public class ServerController {
     private final String rootURL = "http://zipcode.rocks:8085";
 
     private static final ServerController svr = new ServerController();
@@ -59,7 +57,7 @@ public class ServerController() {
         }
         return null;
     }
-    public JsonString idPost(Id id) {
+    public JsonObject idPost(Id id) {
         try{
             // url -> /ids/
             URL url = getConnected();
@@ -88,8 +86,8 @@ public class ServerController() {
                 throw new RuntimeException("HTTP Response Code: " + respo);
             }
             // reply
-            return Json.createReader(conn.getInputStream()).readObject().getJsonString(null);
-            // return json
+            JsonObject jso =  Json.createReader(conn.getInputStream()).readObject();
+            return jso;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,7 +98,7 @@ public class ServerController() {
     }
     private URL getConnected(){
         try{
-            return new URL(rootURL + "/id/");
+            return new URL(rootURL + "/ids");
         }
         catch(MalformedURLException murle){
             murle.printStackTrace();

@@ -9,7 +9,10 @@ public class TransactionController {
     private MessageController msgCtrl;
     private IdController idCtrl;
 
-    public TransactionController(MessageController m, IdController j) {}
+    public TransactionController(MessageController m, IdController j) {
+        this.msgCtrl = m;
+        this.idCtrl = j;
+    }
 
     public List<Id> getIds() {
         return null;
@@ -20,12 +23,15 @@ public class TransactionController {
         return ("Id registered.");
     }
 
-    public String makecall(String s, String cmd, String s1) {
+    public String makecall(String s, String cmd, String opts) {
         if(s.equals("/ids")){
             if(cmd.equals("GET")){
                 return idCtrl.getIds().toString();
             }
-            return "";
+            if(cmd.equals("POST")){
+                String[] optsa = opts.split(" ");
+                return idCtrl.postId(new Id(optsa[0],optsa[1])).toString();
+            }
         }
         else{
             if(cmd.equals("GET")){
@@ -33,5 +39,6 @@ public class TransactionController {
             }
             return "";
         }
+        return "";
     }
 }

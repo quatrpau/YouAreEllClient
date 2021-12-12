@@ -68,4 +68,7 @@ public class YouAreEll {
     }
 
 
+    public String post_id(String name, String github) {
+        return tt.makecall("/ids", "POST",name + " " + github);
+    }
 }
