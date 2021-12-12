@@ -20,13 +20,34 @@ public class ServerController {
     public static ServerController shared() {
         return svr;
     }
-
+    public JsonArray messagesGet(){
+        try{
+            //url -> /messages
+            URL url = getConnected("/messages");
+            if(url== null){
+                throw new NullPointerException("URL is null");
+            }
+            HttpURLConnection conn =(HttpURLConnection) (url.openConnection());
+            // send the server a get with url
+            conn.setRequestMethod("GET");
+            int respo;
+            if((respo = conn.getResponseCode() )!= 200){
+                throw new RuntimeException("HTTP Response Code: " + respo);
+            }
+            else{
+                return Json.createReader(conn.getInputStream()).readArray();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //creates and sends a json object
     public JsonArray idGet() {
         try {
             // url -> /ids/
-            URL url = getConnected();
+            URL url = getConnected("/ids");
             if(url== null){
                 throw new NullPointerException("URL is null");
             }
@@ -39,13 +60,6 @@ public class ServerController {
                 throw new RuntimeException("HTTP Response Code: " + respo);
             }
             else{
-                /**
-                String response = new BufferedReader(
-                        new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-
-                */
                 return Json.createReader(conn.getInputStream()).readArray();
             }
         } catch (IOException e) {
@@ -56,7 +70,7 @@ public class ServerController {
     public JsonObject idPost(Id id) {
         try{
             // url -> /ids/
-            URL url = getConnected();
+            URL url = getConnected("ids");
             if(url== null){
                 throw new NullPointerException("URL is null");
             }
@@ -91,7 +105,7 @@ public class ServerController {
     }
     public JsonObject idPut(Id id) {
         try {
-            URL url = getConnected();
+            URL url = getConnected("ids");
             if (url == null) {
                 throw new NullPointerException("URL is null");
             }
@@ -121,9 +135,9 @@ public class ServerController {
         }
         return null;
     }
-    private URL getConnected(){
+    private URL getConnected(String tine){
         try{
-            return new URL(rootURL + "/ids");
+            return new URL(rootURL + tine);
         }
         catch(MalformedURLException murle){
             murle.printStackTrace();

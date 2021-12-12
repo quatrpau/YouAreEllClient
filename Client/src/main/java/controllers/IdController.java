@@ -17,13 +17,13 @@ public class IdController {
     Id myId;
 
     public ArrayList<Id> getIds() {
-        //if not in allIds;
         allIds.clear();
         JsonArray jarray = ServerController.shared().idGet();
         List<JsonObject> jlist= jarray.getValuesAs(JsonObject.class);
         //make jarray into arraylist
         if(jarray.getValueType() != JsonValue.ValueType.ARRAY){
             System.out.println("JSON output error");
+            return null;
         }
         ArrayList<Id> trove = new ArrayList<Id>();
         int i = 0;

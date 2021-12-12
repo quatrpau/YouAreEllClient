@@ -19,10 +19,18 @@ public class SimpleShell {
     public static void prettyPrint(String output) {
         // yep, make an effort to format things nicely, eh?
         if(output.contains("[") && output.contains("]")){
-            String[] outputStock = output.split(" , ");
-            System.out.println("Name; Github");
-            for(String line: outputStock){
-                System.out.println(line);
+            if(output.contains("[to")){
+                String[] outputStock = output.split(", ");
+                for (String line : outputStock) {
+                    System.out.print(line);
+                }
+            }
+            else {
+                String[] outputStock = output.split(" , ");
+                System.out.println("Name; Github");
+                for (String line : outputStock) {
+                    System.out.println(line);
+                }
             }
         }
         else{
@@ -81,7 +89,6 @@ public class SimpleShell {
                     if(list.size() != 1){
                         //check to see if name is in the server already
                         String results = webber.postOrPut(list.get(1),list.get(2));
-
                     }
                     else{
                         String results = webber.get_ids();
@@ -92,9 +99,13 @@ public class SimpleShell {
 
                 // messages
                 if (list.contains("messages")) {
-                    String results = webber.get_messages();
-                    SimpleShell.prettyPrint(results);
-                    continue;
+                    if(list.size() != 1){
+                    }
+                    else {
+                        String results = webber.get_messages();
+                        SimpleShell.prettyPrint(results);
+                        continue;
+                    }
                 }
                 // you need to add a bunch more.
 
