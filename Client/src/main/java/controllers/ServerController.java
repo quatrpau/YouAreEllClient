@@ -4,6 +4,7 @@ import models.Id;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.json.*;
@@ -89,6 +90,35 @@ public class ServerController {
         return null;
     }
     public JsonObject idPut(Id id) {
+        try {
+            URL url = getConnected();
+            if (url == null) {
+                throw new NullPointerException("URL is null");
+            }
+            HttpURLConnection conn = (HttpURLConnection) (url.openConnection());
+            // create json from Id
+            JsonObject newbie = Json.createObjectBuilder()
+                    .add("userid", id.getUid())
+                    .add("name", id.getName())
+                    .add("github", id.getGithub())
+                    .build();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            OutputStream os = conn.getOutputStream();
+            JsonWriter jw = Json.createWriter(os);
+            jw.write(newbie);
+            jw.close();
+            os.close();
+            int respo;
+            if((respo = conn.getResponseCode() )!= 200){
+                throw new RuntimeException("HTTP Response Code: " + respo);
+            }
+            return Json.createReader(conn.getInputStream()).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
     private URL getConnected(){

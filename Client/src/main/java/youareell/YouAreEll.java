@@ -1,6 +1,7 @@
 package youareell;
 
 import controllers.*;
+import models.Id;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -66,9 +67,18 @@ public class YouAreEll {
          */
         return "";
     }
+    public String postOrPut(String name, String github){
+        if(tt.getIds().contains(new Id(null,github))){
+            return put_id(name,github);
+        }
+        return post_id(name,github);
+    }
 
+    private String put_id(String name, String github) {
+        return tt.makecall( "/ids","PUT",name + " " + github);
+    }
 
-    public String post_id(String name, String github) {
+    private String post_id(String name, String github) {
         return tt.makecall("/ids", "POST",name + " " + github);
     }
 }

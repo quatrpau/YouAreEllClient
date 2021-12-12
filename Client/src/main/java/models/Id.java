@@ -41,4 +41,12 @@ public class Id {
     public String toString() {
         return this.name + " (" + this.github + ") ";
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o==this)return true;
+        if(o==null || o.getClass() != getClass())return false;
+        Id oo = (Id) o;
+        return this.getGithub().equals(oo.getGithub());
+    }
 }

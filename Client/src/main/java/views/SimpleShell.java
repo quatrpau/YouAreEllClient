@@ -79,9 +79,8 @@ public class SimpleShell {
                 // ids
                 if (list.contains("ids")) {
                     if(list.size() != 1){
-
                         //check to see if name is in the server already
-                        String results = webber.post_id(list.get(1),list.get(2));
+                        String results = webber.postOrPut(list.get(1),list.get(2));
 
                     }
                     else{

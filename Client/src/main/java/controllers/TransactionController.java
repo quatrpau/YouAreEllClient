@@ -22,6 +22,13 @@ public class TransactionController {
         tid = idCtrl.postId(tid);
         return ("Id registered.");
     }
+    public String putId(String idToEdit, String githubName) {
+        Id tid = new Id(idToEdit, githubName);
+        List<Id> ids = idCtrl.getIds();
+        tid.setUid(ids.get(ids.indexOf(tid)).getUid());
+        tid = idCtrl.putId(tid);
+        return ("Id changed.");
+    }
 
     public String makecall(String s, String cmd, String opts) {
         if(s.equals("/ids")){
@@ -31,6 +38,10 @@ public class TransactionController {
             if(cmd.equals("POST")){
                 String[] optsa = opts.split(" ");
                 return postId(optsa[0],optsa[1]);
+            }
+            if(cmd.equals("PUT")){
+                String[] optsa = opts.split(" ");
+                return putId(optsa[0],optsa[1]);
             }
         }
         else{

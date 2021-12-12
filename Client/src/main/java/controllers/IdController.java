@@ -12,7 +12,7 @@ import javax.json.*;
 
 public class IdController {
     //name, github id
-    private HashMap<String, Id> allIds;
+    private final HashMap<String, Id> allIds = new HashMap<>();
 
     Id myId;
 
@@ -60,7 +60,16 @@ public class IdController {
     }
 
     public Id putId(Id id) {
-        return null;
+        JsonObject jstr = ServerController.shared().idPut(id);
+        if(jstr.getValueType() != JsonValue.ValueType.OBJECT){
+            System.out.println("JSON output error");
+        }
+        // result json to Id obj
+        //how does json string look like
+        String[] unfiltered = jstr.toString().split("\\W+");
+        Id returner =new Id(unfiltered[3],unfiltered[5]);
+        returner.setUid(unfiltered[1]);
+        return returner;
     }
  
 }
