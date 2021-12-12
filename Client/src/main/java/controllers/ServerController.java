@@ -5,13 +5,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.json.*;
-import javax.json.stream.JsonGenerator;
 
 public class ServerController {
     private final String rootURL = "http://zipcode.rocks:8085";
@@ -27,7 +22,7 @@ public class ServerController {
 
 
     //creates and sends a json object
-    public JsonString idGet() {
+    public JsonArray idGet() {
         try {
             // url -> /ids/
             URL url = getConnected();
@@ -50,7 +45,7 @@ public class ServerController {
                         .collect(Collectors.joining("\n"));
 
                 */
-                return Json.createReader(conn.getInputStream()).readObject().getJsonString(null);
+                return Json.createReader(conn.getInputStream()).readArray();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,7 +88,7 @@ public class ServerController {
         }
         return null;
     }
-    public JsonString idPut(Id id) {
+    public JsonObject idPut(Id id) {
         return null;
     }
     private URL getConnected(){

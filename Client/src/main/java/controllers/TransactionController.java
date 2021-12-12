@@ -15,7 +15,7 @@ public class TransactionController {
     }
 
     public List<Id> getIds() {
-        return null;
+        return idCtrl.getIds();
     }
     public String postId(String idtoRegister, String githubName) {
         Id tid = new Id(idtoRegister, githubName);
@@ -30,7 +30,7 @@ public class TransactionController {
             }
             if(cmd.equals("POST")){
                 String[] optsa = opts.split(" ");
-                return idCtrl.postId(new Id(optsa[0],optsa[1])).toString();
+                return postId(optsa[0],optsa[1]);
             }
         }
         else{

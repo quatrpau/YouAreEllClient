@@ -1,15 +1,14 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Stream;
 
 import models.Id;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.json.JsonValue;
-import javax.print.attribute.standard.Severity;
+import javax.json.*;
 
 public class IdController {
     private HashMap<String, Id> allIds;
@@ -17,7 +16,28 @@ public class IdController {
     Id myId;
 
     public ArrayList<Id> getIds() {
-        return null;
+        //if not in allIds;
+        JsonArray jarray = ServerController.shared().idGet();
+        List<JsonObject> jlist= jarray.getValuesAs(JsonObject.class);
+        //make jarray into arraylist
+        if(jarray.getValueType() != JsonValue.ValueType.ARRAY){
+            System.out.println("JSON output error");
+        }
+        ArrayList<Id> trove = new ArrayList<Id>();
+        int i = 0;
+        while(i < jlist.size()){
+            JsonObject job = jlist.get(i);
+            Id temper = new Id(
+                    job.getString("name"),
+                    job.getString("github")
+            );
+            temper.setUid(job.getString("userid"));
+            trove.add(temper);
+            i++;
+        }
+        return trove;
+
+
     }
 
     public Id postId(Id id) {
