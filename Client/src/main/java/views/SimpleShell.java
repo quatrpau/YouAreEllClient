@@ -89,6 +89,7 @@ public class SimpleShell {
                     if(list.size() != 1){
                         //check to see if name is in the server already
                         String results = webber.postOrPut(list.get(1),list.get(2));
+                        SimpleShell.prettyPrint(results);
                     }
                     else{
                         String results = webber.get_ids();
@@ -99,7 +100,9 @@ public class SimpleShell {
 
                 // messages
                 if (list.contains("messages")) {
-                    if(list.size() != 1){
+                    if(list.size() == 2){
+                        String results = webber.get_messages_sent_to_me(list.get(1));
+                        SimpleShell.prettyPrint(results);
                     }
                     else {
                         String results = webber.get_messages();

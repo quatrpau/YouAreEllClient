@@ -20,10 +20,10 @@ public class ServerController {
     public static ServerController shared() {
         return svr;
     }
-    public JsonArray messagesGet(){
+    public JsonArray messagesGet(String tine){
         try{
             //url -> /messages
-            URL url = getConnected("/messages");
+            URL url = getConnected(tine);
             if(url== null){
                 throw new NullPointerException("URL is null");
             }

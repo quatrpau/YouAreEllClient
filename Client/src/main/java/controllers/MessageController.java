@@ -18,7 +18,25 @@ public class MessageController {
 
     public ArrayList<Message> getMessages() {
         //messagesSeen.clear();
-        JsonArray jara = ServerController.shared().messagesGet();
+        JsonArray jara = ServerController.shared().messagesGet("/messages");
+        return convertJsonArray(jara);
+    }
+    public ArrayList<Message> getMessagesForId(Id Id) {
+        JsonArray jara = ServerController.shared().messagesGet("/ids/" + Id.getGithub() + "/messages");
+        return convertJsonArray(jara);
+
+    }
+    public Message getMessageForSequence(String seq) {
+        return null;
+    }
+    public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
+        return null;
+    }
+
+    public Message postMessage(Id myId, Id toId, Message msg) {
+        return null;
+    }
+    private ArrayList<Message> convertJsonArray(JsonArray jara){
         List<JsonObject> jlist = jara.getValuesAs(JsonObject.class);
         if(jara.getValueType() != JsonValue.ValueType.ARRAY){
             System.out.println("JSON output error");
@@ -41,19 +59,6 @@ public class MessageController {
         }
         return trove;
 
-    }
-    public ArrayList<Message> getMessagesForId(Id Id) {
-        return null;
-    }
-    public Message getMessageForSequence(String seq) {
-        return null;
-    }
-    public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
-        return null;
-    }
-
-    public Message postMessage(Id myId, Id toId, Message msg) {
-        return null;
     }
  
 }

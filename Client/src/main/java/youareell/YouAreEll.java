@@ -40,7 +40,7 @@ public class YouAreEll {
         return tt.makecall("/messages", "GET", "");
     }
 
-    private String MakeURLCall(String bisection, String cmd, String opts) {
+    private String MakeURLCall(String tine, String cmd, String opts) {
         /**
         try{
             HttpURLConnection conn = (HttpURLConnection) (new URL("http","zipcode.rocks",8085,bisection).openConnection());
@@ -80,5 +80,8 @@ public class YouAreEll {
 
     private String post_id(String name, String github) {
         return tt.makecall("/ids", "POST",name + " " + github);
+    }
+    public String get_messages_sent_to_me(String github){
+        return tt.makecall("/ids/" + github + "/messages", "GET", github);
     }
 }

@@ -43,12 +43,15 @@ public class TransactionController {
                 String[] optsa = opts.split(" ");
                 return putId(optsa[0],optsa[1]);
             }
-        }
-        else{
-            if(cmd.equals("GET")){
-                return msgCtrl.getMessages().toString();
+            else {
+                return "";
             }
-            return "";
+        }
+        if(s.equals("/messages")){
+            return msgCtrl.getMessages().toString();
+        }
+        if(s.equals("/ids/" + opts + "/messages")){
+            return msgCtrl.getMessagesForId(new Id(null,opts)).toString();
         }
         return "";
     }
