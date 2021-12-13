@@ -36,8 +36,7 @@ public class MessageController {
 
     public Message postMessage(Message msg) {
         //if statement needed to make sure friends messages are concurrent when you send one?
-        System.out.println(msg.getFromId());
-        JsonObject job = ServerController.shared().messagePost("/ids/" + msg.getFromId() + "/messages",msg);
+        JsonObject job = ServerController.shared().messagePost("/ids/" + msg.getToId() + "/messages",msg);
         if(job.getValueType() != JsonValue.ValueType.OBJECT){
             System.out.println("JSON output error");
         }

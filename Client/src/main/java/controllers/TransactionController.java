@@ -36,6 +36,11 @@ public class TransactionController {
         return("Message Sent");
 
     }
+    public String postMessageToAnother(String recipient, String sender, String message){
+        Message mess = new Message(message,sender,recipient);
+        msgCtrl.postMessage(mess);
+        return("Message Sent");
+    }
 
     public String makecall(String s, String cmd, String opts) {
         String[] cmdo;
@@ -68,8 +73,12 @@ public class TransactionController {
         }
         if((cmdo = cmd.split(" ")).length > 1 ){
             if(cmdo[0].equals("POST")){
-                String[] sspl = s.split("/");
-                return postMessageToWorld(cmdo[1],opts);
+                if(cmdo.length > 2){
+                    return postMessageToAnother(cmdo[1],cmdo[2],opts);
+                }
+                else {
+                    return postMessageToWorld(cmdo[1], opts);
+                }
             }
         }
         return "";

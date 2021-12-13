@@ -116,6 +116,10 @@ public class SimpleShell {
                         String results = webber.post_message_to_world(list.get(1),list.get(2));
                         SimpleShell.prettyPrint(results);
                     }
+                    if(list.size() == 4){
+                        String results = webber.post_message_to_another(list.get(1),list.get(2),list.get(3));
+                        SimpleShell.prettyPrint(results);
+                    }
                 }
                 // you need to add a bunch more.
 

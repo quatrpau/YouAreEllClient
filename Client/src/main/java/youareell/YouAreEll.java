@@ -87,4 +87,7 @@ public class YouAreEll {
     public String post_message_to_world(String github, String message) {
         return tt.makecall("/ids/" + github + "/messages", "POST " + github,message);
     }
+    public String post_message_to_another(String recipient, String sender, String message) {
+        return tt.makecall("/ids/" + recipient + "/messages", "POST " + recipient + " " + sender,message);
+    }
 }
