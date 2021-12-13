@@ -9,6 +9,7 @@ import models.Message;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.json.JsonValue;
 
 public class MessageController {
@@ -18,11 +19,11 @@ public class MessageController {
 
     public ArrayList<Message> getMessages() {
         //messagesSeen.clear();
-        JsonArray jara = ServerController.shared().messagesGet("/messages");
+        JsonStructure jara = ServerController.shared().messagesGet("/messages");
         return convertJsonArray(jara);
     }
     public ArrayList<Message> getMessagesForId(Id Id) {
-        JsonArray jara = ServerController.shared().messagesGet("/ids/" + Id.getGithub() + "/messages");
+        JsonStructure jara = ServerController.shared().messagesGet("/ids/" + Id.getGithub() + "/messages");
         return convertJsonArray(jara);
 
     }
@@ -33,15 +34,31 @@ public class MessageController {
         return null;
     }
 
-    public Message postMessage(Id myId, Id toId, Message msg) {
-        return null;
+    public Message postMessage(Message msg) {
+        //if statement needed to make sure friends messages are concurrent when you send one?
+        System.out.println(msg.getFromId());
+        JsonObject job = ServerController.shared().messagePost("/ids/" + msg.getFromId() + "/messages",msg);
+        if(job.getValueType() != JsonValue.ValueType.OBJECT){
+            System.out.println("JSON output error");
+        }
+        // result json to Id obj
+        //how does json string look like
+        return new Message(
+                job.getString("sequence"),
+                job.getString("timestamp"),
+                job.getString("message"),
+                job.getString("fromid"),
+                job.getString("toid")
+        );
     }
-    private ArrayList<Message> convertJsonArray(JsonArray jara){
-        List<JsonObject> jlist = jara.getValuesAs(JsonObject.class);
+    private ArrayList<Message> convertJsonArray(JsonStructure jara){
+        if(jara == null) return null;
         if(jara.getValueType() != JsonValue.ValueType.ARRAY){
             System.out.println("JSON output error");
             return null;
         }
+        JsonArray jaraa = (JsonArray) jara;
+        List<JsonObject> jlist =  jaraa.getValuesAs(JsonObject.class);
         ArrayList<Message> trove = new ArrayList<>();
         int i = 0;
         while(i < jlist.size()){

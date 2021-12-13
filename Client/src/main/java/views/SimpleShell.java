@@ -18,7 +18,8 @@ public class SimpleShell {
 
     public static void prettyPrint(String output) {
         // yep, make an effort to format things nicely, eh?
-        if(output.contains("[") && output.contains("]")){
+        if(output == null){}
+        else if(output.contains("[") && output.contains("]")){
             if(output.contains("[to")){
                 String[] outputStock = output.split(", ");
                 for (String line : outputStock) {
@@ -101,13 +102,19 @@ public class SimpleShell {
                 // messages
                 if (list.contains("messages")) {
                     if(list.size() == 2){
-                        String results = webber.get_messages_sent_to_me(list.get(1));
+                        String results = webber.get_messages_from_me(list.get(1));
                         SimpleShell.prettyPrint(results);
                     }
                     else {
                         String results = webber.get_messages();
                         SimpleShell.prettyPrint(results);
                         continue;
+                    }
+                }
+                if(list.contains("send")){
+                    if(list.size() == 3){
+                        String results = webber.post_message_to_world(list.get(1),list.get(2));
+                        SimpleShell.prettyPrint(results);
                     }
                 }
                 // you need to add a bunch more.

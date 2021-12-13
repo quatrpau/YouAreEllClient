@@ -1,6 +1,8 @@
 package controllers;
 
 import models.Id;
+import models.Message;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -8,6 +10,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.json.*;
+import javax.json.stream.JsonParsingException;
 
 public class ServerController {
     private final String rootURL = "http://zipcode.rocks:8085";
@@ -20,7 +23,45 @@ public class ServerController {
     public static ServerController shared() {
         return svr;
     }
-    public JsonArray messagesGet(String tine){
+    public JsonObject messagePost(String tine, Message msg){
+        try{
+            //url -> /messages
+            URL url = getConnected(tine);
+            if(url== null){
+                throw new NullPointerException("URL is null");
+            }
+            HttpURLConnection conn =(HttpURLConnection) (url.openConnection());
+            JsonObject newbie = Json.createObjectBuilder()
+                    .add("fromid",msg.getFromId())
+                    .add("toid",msg.getToId())
+                    .add("message",msg.getMessage())
+                    .build();
+            // send the server a get with url
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type","application/json; utf-8");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            JsonWriter jw = Json.createWriter(os);
+            jw.write(newbie);
+            jw.close();
+            os.close();
+            int respo;
+            if((respo = conn.getResponseCode() )!= 200){
+                System.out.println(conn.getResponseMessage());
+                throw new RuntimeException("HTTP Response Code: " + respo);
+            }
+            else{
+                return Json.createReader(conn.getInputStream()).readObject();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+    public JsonStructure messagesGet(String tine){
         try{
             //url -> /messages
             URL url = getConnected(tine);
@@ -35,10 +76,13 @@ public class ServerController {
                 throw new RuntimeException("HTTP Response Code: " + respo);
             }
             else{
-                return Json.createReader(conn.getInputStream()).readArray();
+                JsonReader jr = Json.createReader(conn.getInputStream());
+                return jr.read();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JsonException jpe){
+            System.err.println("NO MESSAGES");
         }
         return null;
     }
