@@ -81,6 +81,13 @@ public class TransactionController {
                 }
             }
         }
+        if(s.contains("messages/")){
+            if(s.contains("/from/")) {
+            }
+            else{
+                return msgCtrl.getMessageForSequence(opts,s.split("/")[1]).toString();
+            }
+        }
         return "";
     }
 }

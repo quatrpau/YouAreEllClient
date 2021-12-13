@@ -6,11 +6,9 @@ import models.Message;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.json.*;
-import javax.json.stream.JsonParsingException;
 
 public class ServerController {
     private final String rootURL = "http://zipcode.rocks:8085";

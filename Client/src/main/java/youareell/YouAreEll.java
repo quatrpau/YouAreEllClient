@@ -90,4 +90,8 @@ public class YouAreEll {
     public String post_message_to_another(String recipient, String sender, String message) {
         return tt.makecall("/ids/" + recipient + "/messages", "POST " + recipient + " " + sender,message);
     }
+
+    public String get_messages_via_sequence(String recipient, String sequence){
+        return tt.makecall("/ids/" + recipient + "/messages/" + sequence, "GET",sequence);
+    }
 }

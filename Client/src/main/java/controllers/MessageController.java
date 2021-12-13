@@ -27,8 +27,16 @@ public class MessageController {
         return convertJsonArray(jara);
 
     }
-    public Message getMessageForSequence(String seq) {
-        return null;
+    public Message getMessageForSequence(String seq, String recipient) {
+        JsonStructure jaro = ServerController.shared().messagesGet("/ids/" + recipient + "/messages/" + seq);
+        JsonObject jar = (JsonObject) jaro;
+        return new Message(
+                jar.getString("sequence"),
+                jar.getString("timestamp"),
+                jar.getString("message"),
+                jar.getString("fromid"),
+                jar.getString("toid")
+        );
     }
     public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
         return null;
