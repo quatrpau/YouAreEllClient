@@ -81,12 +81,13 @@ public class TransactionController {
                 }
             }
         }
-        if(s.contains("messages/")){
-            if(s.contains("/from/")) {
-            }
-            else{
-                return msgCtrl.getMessageForSequence(opts,s.split("/")[1]).toString();
-            }
+        if(s.contains("messages/")) {
+            return msgCtrl.getMessageForSequence(opts, s.split("/")[1]).toString();
+        }
+        if(s.contains("/from/")) {
+                Id recipient = new Id(null,s.split("/")[2]);
+                Id sender = new Id(null,opts);
+                return msgCtrl.getMessagesFromFriend(recipient,sender).toString();
         }
         return "";
     }

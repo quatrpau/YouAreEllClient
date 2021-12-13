@@ -94,4 +94,8 @@ public class YouAreEll {
     public String get_messages_via_sequence(String recipient, String sequence){
         return tt.makecall("/ids/" + recipient + "/messages/" + sequence, "GET",sequence);
     }
+
+    public String get_messages_from_another(String recipient, String sender) {
+        return tt.makecall("/ids/" + recipient + "/from/" + sender, "GET", sender);
+    }
 }

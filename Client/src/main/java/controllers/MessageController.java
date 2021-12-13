@@ -39,7 +39,8 @@ public class MessageController {
         );
     }
     public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
-        return null;
+        JsonStructure jara = ServerController.shared().messagesGet("/ids/" + myId.getGithub() + "/from/" + friendId.getGithub());
+        return convertJsonArray(jara);
     }
 
     public Message postMessage(Message msg) {

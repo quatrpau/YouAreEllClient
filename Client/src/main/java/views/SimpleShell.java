@@ -109,6 +109,10 @@ public class SimpleShell {
                         String results = webber.get_messages_via_sequence(list.get(1),list.get(2));
                         SimpleShell.prettyPrint(results);
                     }
+                    if(list.size() == 4){
+                        String results = webber.get_messages_from_another(list.get(1),list.get(3));
+                        SimpleShell.prettyPrint(results);
+                    }
                     else {
                         String results = webber.get_messages();
                         SimpleShell.prettyPrint(results);
